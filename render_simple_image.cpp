@@ -1,5 +1,8 @@
 #include <iostream>
 
+/* PPM file (Portable Pixmap Format) - a simple, uncompressed raster image file format widely used for basic image manipulation
+ */
+
 int main()
 {
     // Define the image size in 2D
@@ -12,6 +15,7 @@ int main()
 
     for (int i = 0; i < height; i++)
     {
+        std::clog << "\rScan lines remaining: " << (height - 1) << ' ' << std::flush;
         for (int j = 0; j < width; j++)
         {
             // auto keyword is a type specifier that directs the compiler to automatically deduce the data type of a variable
@@ -20,11 +24,13 @@ int main()
             auto g = double(j) / (height - 1);
             auto b = 0.0;
 
-            int ir = int(255.999 * r);
-            int ig = int(255.999 * g);
-            int ib = int(255.999 * b);
+            // We use 255.999 avoids rounding error (make sure the value rounds up to 255 for the max input)
+            int ir = int(255 * r);
+            int ig = int(255 * g);
+            int ib = int(255 * b);
 
             std::cout << ir << ' ' << ig << ' ' << ib << '\n';
         }
     }
+    std::clog << "\rDone.           " << '\n';
 }
